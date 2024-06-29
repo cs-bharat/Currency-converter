@@ -1,20 +1,24 @@
-const Base_url = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2024.5.7/v1/currencies";
+const Base_url = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies"
 
 const dropdowns = document.querySelectorAll(".dropdown select");
 const btn = document.querySelector("form button");
 const fromCurr = document.querySelector(".from select");
 const toCurr = document.querySelector(".to select");
-
+const msg = document.querySelector(".msg") 
 
 // for(currCode in countryList){
 //     console.log(currCode, countryList[currCode]);
 // }
 
+window.addEventListener("load", ()=>{
+    updateExchangeRate();
+});
+
 for(let select of dropdowns){
     for(currCode in countryList){
         let newOption = document.createElement("option");
         newOption.innerText = currCode;
-        // newOption.value = currCode;
+        newOption.value = currCode;
         if(select.name === "from" && currCode === "USD"){
             newOption.selected = "selected";
         }else if(select.name === "to" && currCode ==="INR"){
@@ -40,8 +44,6 @@ const updateFlag = (element) =>{
 }
 
 btn.addEventListener("click" , async (evt)=>{
-    // btn ko click karne per jo automatic work ho rahe the vo na ho jo karenge ham karenge//
-
  evt.preventDefault();
  let amount = document.querySelector(".amount input");
  let amtVal = amount.value;
@@ -51,9 +53,23 @@ btn.addEventListener("click" , async (evt)=>{
  }
 //  console.log(amtVal);
 
-// console.log(fromCurr.value, toCurr.value); 
-const URL = `${Base_url}/${toCurr.value.toLowerCase()}.json`; ///${fromCurr.value.toLowerCase()}
+// console.log(fromCurr.value, toCurr.value);
+const URL = `${Base_url}/${fromCurr.value.toLowerCase()}.json`;
+// // /${fromCurr.value.toLowerCase()}
+// // /${toCurr.value.toLowerCase()} //
 let response = await fetch(URL);
+console.log(response); 
 let data = await response.json();
-console.log(data);
+console.log(data)
+// let rate  = data[fromCurr.value.toLowerCase()];
+// console.log(rate);
+
+// let finalAmount = amtVal * rate 
+// // msg.innerText =  `1USD = 80INR`
+// msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`
+
 }) 
+
+const updateExchangeRate = () =>{
+    // button event lishner uper ka code ya per paste 
+}
